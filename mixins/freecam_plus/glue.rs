@@ -36,15 +36,20 @@ fn enter(game: &mut Game<'_>) {
     settings(game);
     let view = VIEWS.iter().position(|v| *v == game.camera_type).unwrap_or(0) as u8;
     freecam::start(eye, game.yaw, game.pitch, view);
-    game.keys.retain(|k| !MOVES.contains(k));
+    for key in MOVES.iter() {
+        game.keys.remove(key);
+    }
     game.camera_type = CameraType::ThirdPersonBack;
 }
 
 fn exit(game: &mut Game<'_>) {
     let Some(view) = freecam::stop() else { return };
     game.camera_type = VIEWS[usize::from(view).min(VIEWS.len() - 1)];
-    let held: Vec<KeyCode> = MOVES.iter().copied().filter(|k| game.physical_keys.contains(k)).collect();
-    game.keys.extend(held);
+    for key in MOVES {
+        if game.physical_keys.contains(&key) {
+            game.keys.insert(key);
+        }
+    }
 }
 
 pub(super) fn window(game: &mut Game<'_>, event: &WindowEvent) -> ControlFlow<()> {
