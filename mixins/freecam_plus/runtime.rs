@@ -1,7 +1,7 @@
 use std::cell::RefCell;
 
 pub const ID: &str = "freecam_plus";
-pub const VERSION: &str = "1.0.1";
+pub const VERSION: &str = "1.1.0";
 pub const DESCRIPTION: &str = "Fly the camera away from your body while your player stays perfectly still. WASD, Space and Shift move it, Ctrl goes faster and the mouse wheel changes the speed.";
 pub const KEY: &str = "toggle";
 pub const DEFAULT_KEY: &str = "key.keyboard.u";
