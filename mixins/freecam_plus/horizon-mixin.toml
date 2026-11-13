@@ -81,14 +81,15 @@ bindings = [
 ]
 
 [[injection]]
-id = "window"
+id = "movement"
 kind = "HEAD"
-cancellable = true
-target = "horizon_client::game::<Game<'_> as ApplicationHandler>::window_event"
-helper = "hooks/window.rs"
+target = "horizon_client::game::native_hooks::Game<'_>::native_movement_input"
+helper = "hooks/movement.rs"
 bindings = [
-  { name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" },
-  { name = "event", ty = "&winit::event::WindowEvent", value = "&event" },
+  { name = "forward", ty = "&mut f32", value = "&mut *forward" },
+  { name = "strafe", ty = "&mut f32", value = "&mut *strafe" },
+  { name = "jump", ty = "&mut bool", value = "&mut *jump" },
+  { name = "sneak", ty = "&mut bool", value = "&mut *sneak" },
 ]
 
 [[injection]]
@@ -105,9 +106,11 @@ bindings = [
 [[injection]]
 id = "camera"
 kind = "HEAD"
-cancellable = true
-target = "horizon_client::game::perspective::Game<'_>::camera_view"
+target = "horizon_client::game::native_hooks::Game<'_>::native_camera_pose"
 helper = "hooks/camera.rs"
 bindings = [
   { name = "partial", ty = "f32", value = "partial" },
+  { name = "position", ty = "&mut [f64; 3]", value = "&mut *position" },
+  { name = "yaw", ty = "&mut f32", value = "&mut *yaw" },
+  { name = "pitch", ty = "&mut f32", value = "&mut *pitch" },
 ]
