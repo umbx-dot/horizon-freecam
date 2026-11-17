@@ -1,10 +1,9 @@
 [package]
-name = "horizon-freecam"
-version = "1.1.0"
+name = "mod-freecam_plus"
+version = "2.0.0"
 edition = "2024"
 license = "MIT"
 publish = false
-description = "Freecam+ for Horizon, a native mod: fly the camera while your player stays still."
 
-[lib]
-path = "mixins/freecam_plus/runtime.rs"
+[dependencies]
+horizon-mod-api = { path = ".horizon/sdk/api/crates/horizon-mod-api" }

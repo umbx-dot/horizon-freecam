@@ -24,8 +24,9 @@ Open Options, Mods, Freecam+.
 | Setting | Default | What it does |
 |---|---|---|
 | Through walls | On | When off, the camera stops at solid blocks |
-| Speed | 1 block per tick | Click to step through 0.25, 0.5, 1, 1.5, 2.5 and 4. The mouse wheel sets anything from 0.05 to 8 |
-| Toggle freecam | U | The key that turns freecam on and off |
+| Speed | 1 block per tick | A slider from 0.05 to 8. The mouse wheel changes it while you fly |
+
+The toggle key (U by default) is in Options, Controls.
 
 ## Multiplayer
 
@@ -37,18 +38,16 @@ In the Horizon launcher, open Mods and install Freecam+, or use Add from GitHub 
 
 ## Build from source
 
-You need Rust 1.95 or newer, Python 3.12 or newer, a Horizon checkout at the commit in `compatibility.json`, and the horizon-mixins tool at the revision listed there.
+Freecam+ is a `.hmod`: Rust source that the launcher compiles against the prebuilt Horizon build pinned in `horizon-mod.toml` (`[native] horizon`). You need Rust and the `cargo horizon-mod` tool from Horizon.
 
 | Command | What it does |
 |---|---|
-| `cargo test` | Runs the tests of the camera logic |
-| `python tools/bundle.py apply --horizon <horizon> --mixins-tool <horizon-mixins> --out <stage> --check-target <target>` | Applies the mod to Horizon and checks that the game compiles |
-| `python tools/bundle.py package` | Writes `build/freecam_plus-<version>.hnmod` |
+| `cargo horizon-mod check` | Fetches the pinned build's SDK into `.horizon/sdk/` and checks the mod compiles |
+| `cargo test --lib` | Runs the tests of the camera logic |
+| `cargo horizon-mod build` | Writes `target/horizon-mod/freecam_plus.hmod` |
 | `python tools/make_icon.py` | Redraws `icon.png` |
 
-Made for Horizon Nightly 2026.11.13 (commit `9f42064`) with horizon-mixins `e59da90`. Tested on Windows 11.
-
-Freecam+ uses Horizon's native hook points, which Horizon keeps stable across releases: the keys (`native_key`), the camera it draws the world from (`native_camera_pose`), the player's movement input (`native_movement_input`), the mouse wheel, the tick and the Options → Mods page. Mouse look has no hook point yet, so it still hooks Horizon's `turn_player`; that is why the mod pins a Horizon commit.
+Freecam+ uses Horizon's mod API: the toggle key mapping, `input_key`, `client_tick_post`, `movement_input`, `camera_pose`, `mouse_scrolling` and two settings the game draws in Options, Mods. Mouse look has no hook yet, so one `[[native.mixin]]` still runs at the start of Horizon's `turn_player`; that is why the mod is made for exactly one Horizon build.
 
 ## License
 
