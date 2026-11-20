@@ -3,6 +3,7 @@ name = "Freecam+"
 version = "2.0.1"
 description = "Fly the camera away from your body while your player stays perfectly still. WASD, Space and Shift move it, Ctrl goes faster and the mouse wheel changes the speed."
 authors = ["_idom_"]
+license = "MIT"
 api = "0.2"
 side = "client"
 capabilities = ["registries"]
